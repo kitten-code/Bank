@@ -1,4 +1,4 @@
-package bank_1;
+package bank;
 
 public class Main {
 
