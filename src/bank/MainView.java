@@ -8,8 +8,11 @@ public class MainView extends JFrame {
     private JToolBar MainToolBar;
     private JTable ClientsTable;
     private JMenuBar menuBar;
+    private JTextField menuSearchTextField;
+    private JLabel menuSearchLabel;
+    private JToolBar.Separator separatorToolBar;
     private JMenu menuClients, menuSort;
-    private JMenuItem addClient,fromAccountBalance,fromSurname;
+    private JMenuItem addClient, fromAccountBalance, fromSurname;
 
 
     // Klient
@@ -40,25 +43,35 @@ public class MainView extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
 
-        menuBar=new JMenuBar();
+        menuBar = new JMenuBar();
 
-        menuClients= new JMenu("Klienci");
-        menuSort= new JMenu("Sortuj według");
+        menuClients = new JMenu("Klienci");
+        menuSort = new JMenu("Sortuj według");
 
         menuBar.add(menuClients);
         menuBar.add(menuSort);
 
-        addClient= new JMenuItem("Dodaj Klienta");
+
+        addClient = new JMenuItem("Dodaj Klienta");
         menuClients.add(addClient);
-        menuClients.addSeparator();
-//
-        fromAccountBalance= new JMenuItem("Stanu Konta");
+        
+        fromAccountBalance = new JMenuItem("Najwyższego Stanu Konta");
         menuSort.add(fromAccountBalance);
 
-        fromSurname= new JMenuItem("Nazwiska");
+        fromSurname = new JMenuItem("Nazwiska (A-Z) ");
         menuSort.add(fromSurname);
 
         MainToolBar.add(menuBar);
+
+        separatorToolBar = new JToolBar.Separator();
+        MainToolBar.add(separatorToolBar);
+
+        menuSearchLabel = new JLabel("Szukaj numeru konta  ");
+        MainToolBar.add(menuSearchLabel);
+
+        menuSearchTextField = new JTextField(" Szukaj");
+        MainToolBar.add(menuSearchTextField);
+
 
     }
 }
