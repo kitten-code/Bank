@@ -15,10 +15,20 @@ public class CreateClientView extends JFrame {
     private JLabel genderLabel;
     private JRadioButton femaleRadioButton;
     private JRadioButton maleRadioButton;
+    private JLabel addLabel1;
+    private JCheckBox yesCheckBox;
+    private JPanel addPaymentPanel;
+    private JLabel addPaymentLabel;
+    private JTextField textFieldAddPayment;
+    private JLabel dateLabel;
+    private JTextField textFieldDate;
+    private JPanel buttonPanel;
+    private JButton saveButton;
+    private JButton closeButton;
 
 
     public CreateClientView (){
-      super("MainView");
+      super("Dodawanie Klienta");
       this.setContentPane(this.mainPanel); // komponent poczatkowy
       this.pack();
   }

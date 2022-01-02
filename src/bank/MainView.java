@@ -78,7 +78,7 @@ public class MainView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CreateClientView createClientView = new CreateClientView();
-                createClientView.setSize(400,900);
+                createClientView.setSize(410,400);
                 createClientView.setVisible(true);
                 // tworzysz obiekt
             }
