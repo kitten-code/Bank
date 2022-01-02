@@ -6,5 +6,7 @@ public class Main {
         MainView mainView = new MainView();
         mainView.setSize(1640,1200);
         mainView.setVisible(true);
+
+
     }
 }

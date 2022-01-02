@@ -2,6 +2,8 @@ package bank;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainView extends JFrame {
     private JPanel MainPanel;
@@ -54,7 +56,7 @@ public class MainView extends JFrame {
 
         addClient = new JMenuItem("Dodaj Klienta");
         menuClients.add(addClient);
-        
+
         fromAccountBalance = new JMenuItem("Najwyższego Stanu Konta");
         menuSort.add(fromAccountBalance);
 
@@ -72,6 +74,14 @@ public class MainView extends JFrame {
         menuSearchTextField = new JTextField(" Szukaj");
         MainToolBar.add(menuSearchTextField);
 
-
+        addClient.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CreateClientView createClientView = new CreateClientView();
+                createClientView.setSize(400,900);
+                createClientView.setVisible(true);
+                // tworzysz obiekt
+            }
+        });
     }
 }
