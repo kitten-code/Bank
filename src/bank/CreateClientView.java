@@ -1,5 +1,8 @@
 package bank;
 
+import bank.models.Client;
+import bank.models.Gender;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,6 +41,8 @@ public class CreateClientView extends JFrame {
         this.setContentPane(this.mainPanel); // komponent poczatkowy
         this.pack();
 
+        maleRadioButton.setSelected(true);
+
         addPaymentPanel.setVisible(false);
         yesCheckBox.addActionListener(new ActionListener() {
             @Override
@@ -55,10 +60,36 @@ public class CreateClientView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (allFieldsAreValid()) {
-                    System.out.println("Dodaje Ola ja kilentów");
+                    LocalDate date = LocalDate.parse(textFieldDateBirth.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    Gender gender = Gender.Male;
+                    if (maleRadioButton.isSelected()) {
+                        gender = Gender.Male;
+                    } else {
+                        gender = Gender.Female;
+                    }
+
+                    // stworzylismy obiekt klienta
+                    Client client = new Client(textFieldName.getText(), textFieldSurname.getText(), date, gender);
+                    // dodaje klienta do bazy danych
+                    // tworzy dla niego obiekt rachunku z numerem rachunku
+                    // dodaje ten rachunek do bazy danych
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Pola niepoprawni uzupełnione", "Błąd", JOptionPane.INFORMATION_MESSAGE);
                 }
+
+
             }
         });
+
+
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+
     }
 
     private boolean allFieldsAreValid() {

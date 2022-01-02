@@ -1,14 +1,24 @@
 package bank.models;
 
+import java.time.LocalDate;
 import java.util.Date;
 
+
 public class Client {
+
     int id;
     String name;
     String surname;
-    Date birthDate;
+    LocalDate birthDate;
     Gender gender;
     int id_bankAccount;
+
+    public Client(String name, String surname, LocalDate birthDate, Gender gender) {
+        this.name = name;
+        this.surname = surname;
+        this.birthDate = birthDate;
+        this.gender = gender;
+    }
 
     public int getId() {
         return id;
@@ -34,11 +44,11 @@ public class Client {
         this.surname = surname;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
