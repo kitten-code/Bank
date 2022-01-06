@@ -16,6 +16,7 @@ public class Main {
         Database database = new Database();
         //database.AddClient(new Client("Michal","Kot", LocalDate.now(), Gender.Female, 518532));
         //database.AddBankAccount(new BankAccount(3462,500));
-        database.AddHistory(new History(5467, PayType.Payment,400,LocalDate.now()));
+        //database.AddHistory(new History(5467, PayType.Payment,400,LocalDate.now()));
+        //BankAccount account = database.GetBankAccount(3462);
     }
 }

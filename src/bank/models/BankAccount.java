@@ -5,6 +5,10 @@ public class BankAccount {
     int accountNumber;
     float balance;
 
+    public BankAccount(){
+
+    }
+
     public BankAccount( int accountNumber,float balance) {
         this.accountNumber=accountNumber;
         this.balance=balance;

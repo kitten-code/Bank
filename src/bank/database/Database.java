@@ -4,10 +4,7 @@ import bank.models.BankAccount;
 import bank.models.Client;
 import bank.models.History;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Database {
     private static final String DB_URL = "jdbc:sqlserver://alewil-bank-urz-server.database.windows.net:1433;database=alewil.bank.urz;user=kittenCode@alewil-bank-urz-server;password=PiesKot12!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
@@ -54,6 +51,28 @@ public class Database {
             e.printStackTrace();
         }
 
+    }
+
+    // zwracam konto bankowe z bazy danych na podstawie numeru konta bankowego
+    public BankAccount GetBankAccount(int bankAccountNumber) {
+        BankAccount bankAccount = new BankAccount();
+        try {
+            String sql = String.format("SELECT * FROM BankAccount WHERE accountNumber = %s", bankAccountNumber);
+
+            connection = DriverManager.getConnection(DB_URL);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                bankAccount.setId(rs.getInt("id"));
+                bankAccount.setAccountNumber(rs.getInt("accountNumber"));
+                bankAccount.setBalance(rs.getFloat("balance"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return bankAccount;
     }
 
     public void AddHistory(History history){

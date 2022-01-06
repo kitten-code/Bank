@@ -1,5 +1,7 @@
 package bank;
 
+import bank.database.Database;
+import bank.models.BankAccount;
 import bank.models.Client;
 import bank.models.Gender;
 
@@ -40,7 +42,7 @@ public class CreateClientView extends JFrame {
         super("Dodawanie Klienta");
         this.setContentPane(this.mainPanel); // komponent poczatkowy
         this.pack();
-
+        textFieldAddPayment.setText("0");
         maleRadioButton.setSelected(true);
 
         addPaymentPanel.setVisible(false);
@@ -69,8 +71,21 @@ public class CreateClientView extends JFrame {
                         gender = Gender.Female;
                     }
 
+                    //database.AddClient(new Client("Michal","Kot", LocalDate.now(), Gender.Female, 518532));
+                    //database.AddBankAccount(new BankAccount(3462,500));
                     // stworzylismy obiekt klienta
-                    Client client = new Client(textFieldName.getText(), textFieldSurname.getText(), date, gender, id_bankAccount);
+                    int accountNumber = Integer.parseInt(textFieldAccountNumber.getText());
+                    float addPayment = Float.parseFloat(textFieldAddPayment.getText());
+
+                    BankAccount bankAccount = new BankAccount(accountNumber,addPayment);
+                    Database database = new Database();
+                    database.AddBankAccount(bankAccount);
+
+                    bankAccount = database.GetBankAccount(accountNumber);
+
+                    Client client = new Client(textFieldName.getText(), textFieldSurname.getText(), date, gender, bankAccount.getId());
+
+                    database.AddClient(client);
                     // dodaje klienta do bazy danych
                     // tworzy dla niego obiekt rachunku z numerem rachunku
                     // dodaje ten rachunek do bazy danych
