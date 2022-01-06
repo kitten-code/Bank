@@ -1,6 +1,10 @@
 package bank;
 
 import bank.database.Database;
+import bank.models.*;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 public class Main {
 
@@ -9,6 +13,9 @@ public class Main {
         mainView.setSize(1640,1200);
         mainView.setVisible(true);
 
-        new Database();
+        Database database = new Database();
+        //database.AddClient(new Client("Michal","Kot", LocalDate.now(), Gender.Female, 518532));
+        //database.AddBankAccount(new BankAccount(3462,500));
+        database.AddHistory(new History(5467, PayType.Payment,400,LocalDate.now()));
     }
 }

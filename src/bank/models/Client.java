@@ -13,11 +13,12 @@ public class Client {
     Gender gender;
     int id_bankAccount;
 
-    public Client(String name, String surname, LocalDate birthDate, Gender gender) {
+    public Client(String name, String surname, LocalDate birthDate, Gender gender, int id_bankAccount) {
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
         this.gender = gender;
+        this.id_bankAccount = id_bankAccount;
     }
 
     public int getId() {

@@ -5,6 +5,11 @@ public class BankAccount {
     int accountNumber;
     float balance;
 
+    public BankAccount( int accountNumber,float balance) {
+        this.accountNumber=accountNumber;
+        this.balance=balance;
+    }
+
     public int getId() {
         return id;
     }

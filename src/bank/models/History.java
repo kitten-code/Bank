@@ -6,6 +6,7 @@ package bank.models;
 // typ: wpłata/wypłata
 // kwota
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class History {
@@ -14,7 +15,14 @@ public class History {
     int id_bankAccount;
     PayType payType;
     float moneyAmount;
-    Date operationDate;
+    LocalDate operationDate;
+
+    public History(int id_bankAccount, PayType payType, float moneyAmount, LocalDate operationDate) {
+        this.id_bankAccount = id_bankAccount;
+        this.payType = payType;
+        this.moneyAmount = moneyAmount;
+        this.operationDate = operationDate;
+    }
 
     public int getId() {
         return id;
@@ -48,11 +56,11 @@ public class History {
         this.moneyAmount = moneyAmount;
     }
 
-    public Date getOperationDate() {
+    public LocalDate getOperationDate() {
         return operationDate;
     }
 
-    public void setOperationDate(Date operationDate) {
+    public void setOperationDate(LocalDate operationDate) {
         this.operationDate = operationDate;
     }
 

@@ -62,6 +62,7 @@ public class CreateClientView extends JFrame {
                 if (allFieldsAreValid()) {
                     LocalDate date = LocalDate.parse(textFieldDateBirth.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                     Gender gender = Gender.Male;
+                    int id_bankAccount = 0; // trzeba zmienic na id wczesniej stworzonego konta bankowego
                     if (maleRadioButton.isSelected()) {
                         gender = Gender.Male;
                     } else {
@@ -69,7 +70,7 @@ public class CreateClientView extends JFrame {
                     }
 
                     // stworzylismy obiekt klienta
-                    Client client = new Client(textFieldName.getText(), textFieldSurname.getText(), date, gender);
+                    Client client = new Client(textFieldName.getText(), textFieldSurname.getText(), date, gender, id_bankAccount);
                     // dodaje klienta do bazy danych
                     // tworzy dla niego obiekt rachunku z numerem rachunku
                     // dodaje ten rachunek do bazy danych
