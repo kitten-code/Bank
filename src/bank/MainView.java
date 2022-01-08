@@ -1,6 +1,7 @@
 package bank;
 
 import bank.database.Database;
+import bank.models.BankAccount;
 import bank.models.Client;
 
 import javax.swing.*;
@@ -69,10 +70,22 @@ public class MainView extends JFrame {
         menuClients.add(addClient);
 
         fromAccountBalance = new JMenuItem("Najwyższego Stanu Konta");
+        fromAccountBalance.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Database database = new Database();
+                clients = database.GetClientsByBalance();
+
+                listClientsModel = new DefaultListModel(); //żeby wyświetlic liste klientów
+                for(int i=0; i<clients.size();i++){
+                    listClientsModel.addElement(clients.get(i));
+                }
+                clientsList.setModel(listClientsModel);
+
+            }
+        });
         menuSort.add(fromAccountBalance);
 
-        fromSurname = new JMenuItem("Nazwiska (A-Z) ");
-        menuSort.add(fromSurname);
 
         MainToolBar.add(menuBar);
 
@@ -82,7 +95,7 @@ public class MainView extends JFrame {
         menuSearchLabel = new JLabel("Szukaj numeru konta  ");
         MainToolBar.add(menuSearchLabel);
 
-        menuSearchTextField = new JTextField(" Szukaj");
+        menuSearchTextField = new JTextField(); // dodac szukaj przed prezentacja
         MainToolBar.add(menuSearchTextField);
 
         addClient.addActionListener(new ActionListener() {
@@ -102,6 +115,61 @@ public class MainView extends JFrame {
             listClientsModel.addElement(clients.get(i));
         }
         clientsList.setModel(listClientsModel);
+
+
+        menuSearchTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(menuSearchTextField.getText().isEmpty()){
+                    clients = database.GetClients();
+
+                    listClientsModel = new DefaultListModel(); //żeby wyświetlic liste klientów
+                    for(int i=0; i<clients.size();i++){
+                        listClientsModel.addElement(clients.get(i));
+                    }
+                    clientsList.setModel(listClientsModel);
+                    return;
+                }
+
+                BankAccount getBankAccount = database.GetBankAccountById(Integer.parseInt(menuSearchTextField.getText())); // zmieniamy typ ze stringa na inta
+                // account number
+
+                if ( getBankAccount != null){
+
+                    clientsList.setModel(new DefaultListModel()); // ustawiliśmy ppusty model ( jakby czysta lista )
+
+                    getBankAccount.getId();// szukam klienta który get bank account id jest równe temu id
+                    //to jest klasa reprezentująca konto bankowe i pobranie jego id
+                    //Dopasowanie id rachunku do id_bank account klienta
+
+                    // zmienna reprezentująca klienta na podstawie pustego konstruktora
+
+                    Client client1= new Client();
+
+                    //pętla- for iteruje przez liste klientów i w każdej iteraji klient bedzie w zmiennej cFC
+                   //int i=0; i<clients.size();i++)
+                    //Client clientForContext: clients
+
+
+                    for(int i=0; i<clients.size();i++){
+                        Client clientForContext=(clients.get(i));
+
+                        if(clientForContext.getId_bankAccount()==getBankAccount.getId()){
+                            client1=clientForContext;
+                            break;
+                        }
+
+                    }
+
+                    listClientsModel = new DefaultListModel(); //nowy model listy dla jlist
+                    listClientsModel.addElement(client1); // znaleziony klient dodajemy do nowej listy
+
+                    clientsList.setModel(listClientsModel); // ustawimy to jako nowy model listy
+
+                }
+            }
+        });
 
 
     }

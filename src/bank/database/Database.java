@@ -77,6 +77,27 @@ public class Database {
         return bankAccount;
     }
 
+    public BankAccount GetBankAccountById(int id) {
+        BankAccount bankAccount = new BankAccount();
+        try {
+            String sql = String.format("SELECT * FROM BankAccount WHERE id = %s", id);
+
+            connection = DriverManager.getConnection(DB_URL);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                bankAccount.setId(rs.getInt("id"));
+                bankAccount.setAccountNumber(rs.getInt("accountNumber"));
+                bankAccount.setBalance(rs.getFloat("balance"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return bankAccount;
+    }
+
     public void AddHistory(History history){
 
         try {
@@ -122,6 +143,43 @@ public class Database {
         return clients;
 
     }
+
+
+
+
+
+
+    public ArrayList<Client> GetClientsByBalance() {
+        ArrayList<Client> clients=new ArrayList<Client>(); //clients - lista klientow
+        try {
+            String sql = "SELECT * FROM Client  INNER JOIN BankAccount ON BankAccount.id=Client.id_bankAccount\n" +
+                    "    ORDER BY balance desc";
+
+            connection = DriverManager.getConnection(DB_URL);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                int id =rs.getInt("id");
+                String name =rs.getString("name");
+                String surname =rs.getString("surname");
+                Date birthDate =rs.getDate("birthDate");
+                String gender =rs.getString("gender");
+                int id_bankAccount =rs.getInt("id_bankAccount");
+
+                Client client = new Client(id,name,surname,birthDate,gender,id_bankAccount); //obiekt klienta ( dane stworzone na podstawie typu
+                clients.add(client);
+
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return clients;
+
+    }
+
+
 
 
 

@@ -30,6 +30,10 @@ public class Client {
         this.id_bankAccount = id_bankAccount;
     }
 
+    public Client(){
+
+    }
+
     @Override
     public String toString() {
         return "Client " +
