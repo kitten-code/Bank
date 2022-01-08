@@ -1,14 +1,25 @@
 package bank;
 
+import bank.database.Database;
+import bank.models.Client;
+
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MainView extends JFrame {
     private JPanel MainPanel;
     private JToolBar MainToolBar;
-    private JTable ClientsTable;
+    private JList clientsList;
+    private JScrollBar scrollBar1;
+    private ArrayList<Client> clients;
+    private DefaultListModel listClientsModel;
+
+
     private JMenuBar menuBar;
     private JTextField menuSearchTextField;
     private JLabel menuSearchLabel;
@@ -78,10 +89,20 @@ public class MainView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CreateClientView createClientView = new CreateClientView();
-                createClientView.setSize(410,400);
+                createClientView.setSize(410, 400);
                 createClientView.setVisible(true);
                 // tworzysz obiekt
             }
         });
+        Database database = new Database();
+        clients = database.GetClients();
+
+        listClientsModel = new DefaultListModel(); //żeby wyświetlic liste klientów
+        for(int i=0; i<clients.size();i++){
+            listClientsModel.addElement(clients.get(i));
+        }
+        clientsList.setModel(listClientsModel);
+
+
     }
 }

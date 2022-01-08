@@ -1,7 +1,7 @@
 package bank.models;
 
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Date;
 
 
 public class Client {
@@ -19,6 +19,27 @@ public class Client {
         this.birthDate = birthDate;
         this.gender = gender;
         this.id_bankAccount = id_bankAccount;
+    }
+
+    public Client(int id, String name, String surname, Date birthDate, String gender, int id_bankAccount) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.birthDate = birthDate.toLocalDate();
+        this.gender = Gender.valueOf(gender); //konwertuje stringa na enuma
+        this.id_bankAccount = id_bankAccount;
+    }
+
+    @Override
+    public String toString() {
+        return "Client " +
+                "  " + id +
+                "  " + name +
+                " " + surname +
+                "   Data ur.  " + birthDate +
+                " ( " + gender + " ) "+
+                " numer konta: " + id_bankAccount
+                ;
     }
 
     public int getId() {

@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         MainView mainView = new MainView();
-        mainView.setSize(1640,1200);
+        mainView.setSize(820,600);
         mainView.setVisible(true);
 
         Database database = new Database();
