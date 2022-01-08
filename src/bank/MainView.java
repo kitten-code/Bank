@@ -17,6 +17,12 @@ public class MainView extends JFrame {
     private JToolBar MainToolBar;
     private JList clientsList;
     private JScrollBar scrollBar1;
+    private JLabel historyLabel;
+    private JList historyList;
+    private JScrollBar scrollBar2;
+    private JTextField paymentValuetextField;
+    private JButton buttonAddPayment;
+    private JButton buttonPayOut;
     private ArrayList<Client> clients;
     private DefaultListModel listClientsModel;
 
@@ -28,7 +34,7 @@ public class MainView extends JFrame {
     private JMenu menuClients, menuSort;
     private JMenuItem addClient, fromAccountBalance, fromSurname;
 
-
+    private Client selectedClient;
     // Klient
     // id
     // imie
@@ -170,6 +176,18 @@ public class MainView extends JFrame {
                 }
             }
         });
+
+
+        clientsList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()){
+                    selectedClient = (Client) clientsList.getSelectedValue();
+                }
+            } //funkcja wybiera klienta
+        });
+
+
 
 
     }

@@ -179,6 +179,7 @@ public class Database {
 
     }
 
+     //metoda do pobierania historii
 
 
 
