@@ -10,13 +10,15 @@ public class Main {
 
     public static void main(String[] args) {
         MainView mainView = new MainView();
-        mainView.setSize(820,600);
+        mainView.setSize(1250,700);
         mainView.setVisible(true);
 
         Database database = new Database();
         //database.AddClient(new Client("Michal","Kot", LocalDate.now(), Gender.Female, 518532));
         //database.AddBankAccount(new BankAccount(3462,500));
-        //database.AddHistory(new History(5467, PayType.Payment,400,LocalDate.now()));
+        //database.AddHistory(new History(5,PayType.Payment,200,LocalDate.now()));
         //BankAccount account = database.GetBankAccount(3462);
     }
+
+
 }

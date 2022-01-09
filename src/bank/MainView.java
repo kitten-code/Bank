@@ -3,6 +3,8 @@ package bank;
 import bank.database.Database;
 import bank.models.BankAccount;
 import bank.models.Client;
+import bank.models.History;
+import bank.models.PayType;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -10,6 +12,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MainView extends JFrame {
@@ -23,6 +26,8 @@ public class MainView extends JFrame {
     private JTextField paymentValuetextField;
     private JButton buttonAddPayment;
     private JButton buttonPayOut;
+    private JLabel BalanceLabelText;
+    private JLabel AccountBalanceLabel;
     private ArrayList<Client> clients;
     private DefaultListModel listClientsModel;
 
@@ -83,7 +88,7 @@ public class MainView extends JFrame {
                 clients = database.GetClientsByBalance();
 
                 listClientsModel = new DefaultListModel(); //żeby wyświetlic liste klientów
-                for(int i=0; i<clients.size();i++){
+                for (int i = 0; i < clients.size(); i++) {
                     listClientsModel.addElement(clients.get(i));
                 }
                 clientsList.setModel(listClientsModel);
@@ -117,7 +122,7 @@ public class MainView extends JFrame {
         clients = database.GetClients();
 
         listClientsModel = new DefaultListModel(); //żeby wyświetlic liste klientów
-        for(int i=0; i<clients.size();i++){
+        for (int i = 0; i < clients.size(); i++) {
             listClientsModel.addElement(clients.get(i));
         }
         clientsList.setModel(listClientsModel);
@@ -127,11 +132,11 @@ public class MainView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if(menuSearchTextField.getText().isEmpty()){
+                if (menuSearchTextField.getText().isEmpty()) {
                     clients = database.GetClients();
 
                     listClientsModel = new DefaultListModel(); //żeby wyświetlic liste klientów
-                    for(int i=0; i<clients.size();i++){
+                    for (int i = 0; i < clients.size(); i++) {
                         listClientsModel.addElement(clients.get(i));
                     }
                     clientsList.setModel(listClientsModel);
@@ -141,7 +146,7 @@ public class MainView extends JFrame {
                 BankAccount getBankAccount = database.GetBankAccountById(Integer.parseInt(menuSearchTextField.getText())); // zmieniamy typ ze stringa na inta
                 // account number
 
-                if ( getBankAccount != null){
+                if (getBankAccount != null) {
 
                     clientsList.setModel(new DefaultListModel()); // ustawiliśmy ppusty model ( jakby czysta lista )
 
@@ -151,18 +156,18 @@ public class MainView extends JFrame {
 
                     // zmienna reprezentująca klienta na podstawie pustego konstruktora
 
-                    Client client1= new Client();
+                    Client client1 = new Client();
 
                     //pętla- for iteruje przez liste klientów i w każdej iteraji klient bedzie w zmiennej cFC
-                   //int i=0; i<clients.size();i++)
+                    //int i=0; i<clients.size();i++)
                     //Client clientForContext: clients
 
 
-                    for(int i=0; i<clients.size();i++){
-                        Client clientForContext=(clients.get(i));
+                    for (int i = 0; i < clients.size(); i++) {
+                        Client clientForContext = (clients.get(i));
 
-                        if(clientForContext.getId_bankAccount()==getBankAccount.getId()){
-                            client1=clientForContext;
+                        if (clientForContext.getId_bankAccount() == getBankAccount.getId()) {
+                            client1 = clientForContext;
                             break;
                         }
 
@@ -181,14 +186,84 @@ public class MainView extends JFrame {
         clientsList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()){
+                if (!e.getValueIsAdjusting()) {
+                    historyList.setModel(new DefaultListModel());
                     selectedClient = (Client) clientsList.getSelectedValue();
+                    ArrayList<History> history = database.GetHistory(selectedClient.getId_bankAccount());
+                    DefaultListModel listHistorysModel = new DefaultListModel(); //żeby wyświetlic liste transakcji
+
+                    if (history.size() == 0) {
+                        return;
+                    }
+                    for (int i = 0; i < history.size(); i++) {
+                        listHistorysModel.addElement(history.get(i));
+                    }
+                    historyList.setModel(listHistorysModel);
+                    BankAccount selectedClientBankAccount = database.GetBankAccountById(selectedClient.getId_bankAccount());
+                    AccountBalanceLabel.setText(String.valueOf(0)); // jesli nie znajdzie konta to wyswietlamy 0
+                    if (selectedClientBankAccount != null) {
+                        AccountBalanceLabel.setText(String.valueOf(selectedClientBankAccount.getBalance()));
+                    }
                 }
             } //funkcja wybiera klienta
         });
 
 
+        buttonAddPayment.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                float money = Float.parseFloat(paymentValuetextField.getText());
+                database.UpdateBalance(selectedClient.getId_bankAccount(), money);
+                database.AddHistory(new History(selectedClient.getId_bankAccount(), PayType.Payment, money, LocalDate.now()));
 
 
+                ArrayList<History> history = database.GetHistory(selectedClient.getId_bankAccount());
+                DefaultListModel listHistorysModel = new DefaultListModel(); //żeby wyświetlic liste transakcji
+
+                if (history.size() == 0) {
+                    return;
+                }
+                for (int i = 0; i < history.size(); i++) {
+                    listHistorysModel.addElement(history.get(i));
+                }
+                historyList.setModel(listHistorysModel);
+
+                paymentValuetextField.setText("");//czyszczenie pola tesktowego
+            }
+        });
+
+        buttonPayOut.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                float money = Float.parseFloat(paymentValuetextField.getText());
+                BankAccount selectedClientBankAccount = database.GetBankAccountById(selectedClient.getId_bankAccount()); //Pobieramy konto bankowe wybranego klienta by sprawdzic czy jego stan pozwala na wypłate
+                if (selectedClientBankAccount.getBalance() - money < 0) {
+                    JOptionPane.showMessageDialog(null, "Nie masz środków na koncie ", "Błąd", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+
+                database.UpdateBalance(selectedClient.getId_bankAccount(), selectedClientBankAccount.getBalance() - money);// aktualizujemy historie
+                database.AddHistory(new History(selectedClient.getId_bankAccount(), PayType.Payout, money * (-1), LocalDate.now())); //dodajemy do histori
+
+                //odżwiezanie listy i czyszczenie text fielda
+                ArrayList<History> history = database.GetHistory(selectedClient.getId_bankAccount());
+                DefaultListModel listHistorysModel = new DefaultListModel(); //żeby wyświetlic liste transakcji
+
+                if (history.size() == 0) {
+                    return;
+                }
+                for (int i = 0; i < history.size(); i++) {
+                    listHistorysModel.addElement(history.get(i));
+                }
+                historyList.setModel(listHistorysModel);
+
+                paymentValuetextField.setText("");//czyszczenie pola tesktowego
+
+
+            }
+        });
     }
 }

@@ -24,6 +24,27 @@ public class History {
         this.operationDate = operationDate;
     }
 
+
+
+    public History(int id,int id_bankAccount, String payType, float moneyAmount,  LocalDate operationDate) {
+        this.id=id;
+        this.id_bankAccount = id_bankAccount;
+        this.payType = PayType.valueOf(payType);  //konwertuje stringa na enuma
+        this.moneyAmount = moneyAmount;
+        this.operationDate = operationDate;
+    }
+
+    @Override
+    public String toString() {
+        return "History [ " +
+                "id=" + id +
+                ", id_bankAccount=" + id_bankAccount +
+                ", payType=" + payType +
+                ", moneyAmount=" + moneyAmount +
+                ", operationDate=" + operationDate +
+                ']';
+    }
+
     public int getId() {
         return id;
     }

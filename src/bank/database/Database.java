@@ -181,6 +181,53 @@ public class Database {
 
      //metoda do pobierania historii
 
+    public ArrayList<History> GetHistory(int accountNumber)  {
+        ArrayList<History> history = new ArrayList<History>();
+        try {
+            String sql = String.format("SELECT * FROM History WHERE id_BankAccount='%s'", accountNumber); //
+
+            connection = DriverManager.getConnection(DB_URL);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int id_bankAccount = rs.getInt("id_bankAccount");
+                String payType = rs.getString("payType");
+                Float moneyAmount = rs.getFloat("moneyAmount");
+                Date operationDate = rs.getDate("operationDate");
+
+
+                History history1 = new History(id, id_bankAccount, payType, moneyAmount, operationDate.toLocalDate()); //obiekt klienta ( dane stworzone na podstawie typu
+                history.add(history1);
+
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        return history;
+
+
+    }
+
+    public void UpdateBalance( int accountNumber, float moneyAmount){
+        try {
+            String sql = String.format("UPDATE dbo.BankAccount SET balance = '%s' WHERE id = '%s'", moneyAmount, accountNumber );
+
+            connection = DriverManager.getConnection(DB_URL);
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } // metoda aktualizuje historie o dany stan
+
+
+    }
+
+
+
 
 
 
