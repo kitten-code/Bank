@@ -192,6 +192,12 @@ public class MainView extends JFrame {
                     ArrayList<History> history = database.GetHistory(selectedClient.getId_bankAccount());
                     DefaultListModel listHistorysModel = new DefaultListModel(); //żeby wyświetlic liste transakcji
 
+                    BankAccount selectedClientBankAccount = database.GetBankAccountById(selectedClient.getId_bankAccount());
+                    AccountBalanceLabel.setText(String.valueOf(0)); // jesli nie znajdzie konta to wyswietlamy 0
+                    if (selectedClientBankAccount != null) {
+                        AccountBalanceLabel.setText(String.valueOf(selectedClientBankAccount.getBalance()));
+                    }
+
                     if (history.size() == 0) {
                         return;
                     }
@@ -199,11 +205,6 @@ public class MainView extends JFrame {
                         listHistorysModel.addElement(history.get(i));
                     }
                     historyList.setModel(listHistorysModel);
-                    BankAccount selectedClientBankAccount = database.GetBankAccountById(selectedClient.getId_bankAccount());
-                    AccountBalanceLabel.setText(String.valueOf(0)); // jesli nie znajdzie konta to wyswietlamy 0
-                    if (selectedClientBankAccount != null) {
-                        AccountBalanceLabel.setText(String.valueOf(selectedClientBankAccount.getBalance()));
-                    }
                 }
             } //funkcja wybiera klienta
         });
@@ -214,13 +215,20 @@ public class MainView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                BankAccount selectedClientBankAccount = database.GetBankAccountById(selectedClient.getId_bankAccount());
                 float money = Float.parseFloat(paymentValuetextField.getText());
-                database.UpdateBalance(selectedClient.getId_bankAccount(), money);
+                database.UpdateBalance(selectedClient.getId_bankAccount(), selectedClientBankAccount.getBalance() + money);
                 database.AddHistory(new History(selectedClient.getId_bankAccount(), PayType.Payment, money, LocalDate.now()));
 
 
                 ArrayList<History> history = database.GetHistory(selectedClient.getId_bankAccount());
                 DefaultListModel listHistorysModel = new DefaultListModel(); //żeby wyświetlic liste transakcji
+
+                selectedClientBankAccount = database.GetBankAccountById(selectedClient.getId_bankAccount());
+                AccountBalanceLabel.setText(String.valueOf(0)); // jesli nie znajdzie konta to wyswietlamy 0
+                if (selectedClientBankAccount != null) {
+                    AccountBalanceLabel.setText(String.valueOf(selectedClientBankAccount.getBalance()));
+                }
 
                 if (history.size() == 0) {
                     return;
@@ -251,6 +259,12 @@ public class MainView extends JFrame {
                 //odżwiezanie listy i czyszczenie text fielda
                 ArrayList<History> history = database.GetHistory(selectedClient.getId_bankAccount());
                 DefaultListModel listHistorysModel = new DefaultListModel(); //żeby wyświetlic liste transakcji
+
+                selectedClientBankAccount = database.GetBankAccountById(selectedClient.getId_bankAccount());
+                AccountBalanceLabel.setText(String.valueOf(0)); // jesli nie znajdzie konta to wyswietlamy 0
+                if (selectedClientBankAccount != null) {
+                    AccountBalanceLabel.setText(String.valueOf(selectedClientBankAccount.getBalance()));
+                }
 
                 if (history.size() == 0) {
                     return;

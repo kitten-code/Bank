@@ -37,11 +37,11 @@ public class History {
     @Override
     public String toString() {
         return "History [ " +
-                "id=" + id +
-                ", id_bankAccount=" + id_bankAccount +
-                ", payType=" + payType +
-                ", moneyAmount=" + moneyAmount +
-                ", operationDate=" + operationDate +
+                " id:" + id +
+                " numer konta: " + id_bankAccount +
+                "  " + payType +
+                " " + moneyAmount +
+                "  " + operationDate +
                 ']';
     }
 

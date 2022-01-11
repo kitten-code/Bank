@@ -31,8 +31,8 @@ public class CreateClientView extends JFrame {
     private JPanel addPaymentPanel;
     private JLabel addPaymentLabel;
     private JTextField textFieldAddPayment;
-    private JLabel dateLabel;
-    private JTextField textFieldDate;
+
+
     private JPanel buttonPanel;
     private JButton saveButton;
     private JButton closeButton;
@@ -42,6 +42,7 @@ public class CreateClientView extends JFrame {
         super("Dodawanie Klienta");
         this.setContentPane(this.mainPanel); // komponent poczatkowy
         this.pack();
+
         textFieldAddPayment.setText("0");
         maleRadioButton.setSelected(true);
 
