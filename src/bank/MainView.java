@@ -115,7 +115,7 @@ public class MainView extends JFrame {
                 CreateClientView createClientView = new CreateClientView();
                 createClientView.setSize(410, 400);
                 createClientView.setVisible(true);
-                // tworzysz obiekt
+
             }
         });
         Database database = new Database();
@@ -158,7 +158,7 @@ public class MainView extends JFrame {
 
                     Client client1 = new Client();
 
-                    //pętla- for iteruje przez liste klientów i w każdej iteraji klient bedzie w zmiennej cFC
+
                     //int i=0; i<clients.size();i++)
                     //Client clientForContext: clients
 
